@@ -13,23 +13,42 @@ namespace RaceTrackSimulator
         public void UpdateLabels()
         {
             // set my label to my bet's description, and the label on my
+            MyLabel.Text = MyBet.GetDescription();
             // radiobutton to show my cash "Joe has 43 bucks"
+            MyRadioButton.Text = $"{Name} has {Cash} bucks";
         }
 
         public void ClearBet()
         {
-            // reset my bet so it's zero
+            MyBet = new Bet()
+            {
+                Amount = 0,
+                Bettor = this
+            };
+            UpdateLabels();
         }
 
-        public bool PlaceBet()
+        public bool PlaceBet(int amount, int greyhound)
         {
-            // place a new bet and store it in my bet field
-            return true; // if the guy had enough money to bet
+            bool succes = false;
+            if (amount <= Cash)
+            {
+                succes = true;
+                MyBet = new Bet()
+                {
+                    Amount = amount,
+                    Dog = greyhound,
+                    Bettor = this
+                };
+            }
+            if (succes) UpdateLabels();            
+            return succes; // if the guy had enough money to bet
         }
 
         public void Collect(int Winner)
         {
-            // ask my bet to pay out, clear my bet, and update my labels
+            Cash += MyBet.PayOut(Winner);
+            ClearBet();
         }
 
     }

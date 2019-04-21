@@ -19,10 +19,14 @@ namespace RaceTrackSimulator
         {
             bool hasWon = false;
             // Move forward either 1, 2, 3 or 4 spaces at random
-            Location = Randomizer.Next(1, 4);
+            Location += Randomizer.Next(1, 4);
             // Update position of MyPictureBox
             MyPictureBox.Left = StartingPosition + Location;
             // return true if I won the race
+            if (MyPictureBox.Left > RacetrackLength)
+            {
+                hasWon = true;
+            }
             return hasWon;
         }
 
@@ -31,6 +35,7 @@ namespace RaceTrackSimulator
             // Reset my location to 0 and my PictureBox to starting position
             Location = 0;
             StartingPosition = Location;
+            MyPictureBox.Left = StartingPosition;
         }
     }
 }
